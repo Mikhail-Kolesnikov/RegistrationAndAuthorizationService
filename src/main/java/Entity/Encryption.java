@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public enum Encryption {
-    SHA_1;
+    SHA1;
 
 
     public String encrypt(String password) {

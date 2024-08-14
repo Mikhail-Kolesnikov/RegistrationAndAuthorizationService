@@ -1,32 +1,38 @@
 package Entity;
 
-import java.util.HashMap;
 
 public class Password {
     private String passwordHash;
-//    private String encryption;
     private Encryption encryption;
 
-    public Password(String passwordHash, Encryption encryption) {
-        this.passwordHash = encryption.encrypt(passwordHash);
-        this.encryption = encryption;
+    public Password(String passwordHash) {
+        this.passwordHash = passwordHash;
+        this.encryption = Encryption.SHA1;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+
+    public Password(String passwordHash, Encryption encryption) {
+        this.passwordHash = passwordHash;
+        this.encryption = encryption;
     }
 
     public Encryption getEncryption() {
         return encryption;
     }
+
+
+    public void setPassword( String password) {
+// тут должны быть проверки на соответствие пороля( не менее 6 символов и минимумм одна цифра)
+// exception  invalidPasswordCriteria
+
+        this.passwordHash = encryption.encrypt(password);
+    }
+
+    public  boolean verify(String password){
+        String tempHash = encryption.encrypt(password);
+        return this.passwordHash.equals(tempHash);
+    }
+
+
+
 }
-
-
-
-    //    public Password() {
-//    }
-//
-//    public void setPassword() {
-//
-//    }
-
