@@ -1,8 +1,9 @@
 package Controller;
 
 public enum Command {
+
     REGISTER_USER,
-    AUTHORISE_USER,
+    AUTHORIZE_USER,
     RESET_PASSWORD
 
 

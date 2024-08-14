@@ -1,5 +1,6 @@
 package Service;
 
-public interface Registration {
-    boolean register(String userName,String login,String password);
+public interface Registration extends Service {
+   // boolean register(String login, String userName, String email ,String password);
+
 }
