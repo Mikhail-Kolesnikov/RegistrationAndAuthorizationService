@@ -1,5 +1,6 @@
 package Controller;
 
+import Entity.Password;
 import Repository.UserRepository;
 import Repository.UserRepositoryImpl;
 import Service.*;
@@ -7,9 +8,12 @@ import Service.*;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import static Service.Service.*;
+
 public class UserController {
 
     public Scanner scanner = new Scanner(System.in);
+
     private UserRepositoryImpl repository;
     private int loginAttempts;
 
@@ -46,17 +50,9 @@ public class UserController {
 
 
     private void registerUser() {
-String login = "";
-String userName = "";
-String email = "";
-String password1 = "";
-String password2 = "+";
-// ask user
-
-
+        String password1 = "";
         Service service = new RegistrationImpl();
-
-        boolean result = service.perform(repository, new String[]{login, userName, email, password1});
+        boolean result = service.perform(repository, new String[]{login, userName, email,password1});
         if (result) {
             System.out.println("Registration is successful.");
 
@@ -68,8 +64,6 @@ String password2 = "+";
 
 
     private void authorizeUser() {
-        String login = "";
-        String password = "";
 
 //вопросы поьзователю про логин , пассворд
 

@@ -37,7 +37,7 @@ public class Password {
     public void setPassword(String password) throws PasswordComplexityException {
 //проверки на соответствие пороля( не менее 6 символов и минимумм одна цифра)
 
-        if (password.length() < 6) {
+        if (password.length() > 6) {
             throw new PasswordComplexityException("The password length is less than 6 symbols.");
         }
         if (!this.hasDigit(password)) {

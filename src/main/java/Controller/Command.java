@@ -6,6 +6,7 @@ public enum Command {
     AUTHORIZE_USER("Log in to the system"),
     RESET_PASSWORD("Reset  your password"),
     EXIT("Exit.");
+
     private String string;
 
     Command(String string) {

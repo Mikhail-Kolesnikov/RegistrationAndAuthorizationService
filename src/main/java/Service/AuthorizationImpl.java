@@ -20,6 +20,4 @@ public class AuthorizationImpl implements Authorization {
     public void askUser() {
 
     }
-
-
 }
