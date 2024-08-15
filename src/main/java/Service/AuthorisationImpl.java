@@ -14,8 +14,11 @@ public class AuthorisationImpl implements Authorisation{
     public boolean login(String login, String password) {
         User user = repository.findByLogin(login);
         if(user != null){
+            String encryptedPassword= user.getPassword().getEncryption().encrypt(password);
+            return user.getPassword().getPasswordHash().equals(encryptedPassword);
 
         }
+        return false;
 
 
     }
