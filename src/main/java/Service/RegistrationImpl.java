@@ -29,32 +29,12 @@ public class RegistrationImpl  implements Registration{
             e.printStackTrace();
             return false;
         }
-
         return true;
     }
 
+
     @Override
     public void askUser() {
-        String password1 = "";
-        String password2 = "+";
 
-        System.out.println("Enter your login: ");
-        login = scanner.nextLine();
-        System.out.println("Enter  your name:");
-        userName = scanner.nextLine();
-        System.out.println("Enter your email: ");
-        email = scanner.nextLine();
-
-        while(!password1.equals(password2)){
-            System.out.println("Enter your password: ");
-            password1 = scanner.nextLine();
-
-            System.out.println("Repeat your password: ");
-            password2 = scanner.nextLine();
-            if(!password1.equals(password2)){
-                System.out.println("Your passwords don't match.");
-            }
-            password = password1;
-        }
     }
 }

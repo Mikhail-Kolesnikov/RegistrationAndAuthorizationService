@@ -9,6 +9,7 @@ public class AuthorizationImpl implements Authorization {
 
     @Override
     public boolean perform(UserRepository repository, String...parameters) {
+
     //login = parameters[0];
    // password = parameters[3];
 
@@ -16,8 +17,4 @@ public class AuthorizationImpl implements Authorization {
 
     }
 
-    @Override
-    public void askUser() {
-
-    }
 }

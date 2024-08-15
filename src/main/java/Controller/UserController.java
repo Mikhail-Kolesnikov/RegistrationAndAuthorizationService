@@ -21,44 +21,71 @@ public class UserController {
         this.repository = (UserRepositoryImpl) repository;
     }
 
-    HashMap<String, Service> services = new HashMap<>();
-    public void registerService(String string, Service service){
-        services.put(string, service);
-    }
-
-
 
     public void startProgram() {
         //здрасьте,
+
         while (true) {
-           // выбор опреции,
 
+            // выбор опреции,
+            System.out.println();
 
-            // енам как меню
             for (int i = 1; i <= Command.values().length; i++) {
-                System.out.println( i  +  ". " + Command.values()[i - 1].toString());
+                System.out.println(i + ". " + Command.values()[i - 1].toString());
             }
 
             int commandLine = scanner.nextInt();
-            Command c =  Command.values()[commandLine - 1];
-           services.get(c.name()).askUser();
-           services.get(c.name()).perform(repository);
+            Command c = Command.values()[commandLine - 1];
 
+            switch (c) {
+                case REGISTER_USER -> registerUser();
+                case AUTHORIZE_USER -> authorizeUser();
+                case RESET_PASSWORD -> resetPassword();
+                case EXIT -> exit();
 
+            }
         }
     }
 
 
     private void registerUser() {
         String password1 = "";
-        Service service = new RegistrationImpl();
-        boolean result = service.perform(repository, new String[]{login, userName, email,password1});
-        if (result) {
+        String password2 = "+";
+        String password = "";
+        String login = "";
+        String userName = "";
+        String email = "";
+
+        System.out.println("Enter your login: ");
+        login = scanner.nextLine();
+        System.out.println("Enter  your name:");
+        userName = scanner.nextLine();
+        System.out.println("Enter your email: ");
+        email = scanner.nextLine();
+
+        while (!password1.equals(password2)) {
+            System.out.println("Enter your password: ");
+            password1 = scanner.nextLine();
+
+            System.out.println("Repeat your password: ");
+            password2 = scanner.nextLine();
+            if (!password1.equals(password2)) {
+                System.out.println("Your passwords don't match.");
+            }
+            password = password1;
+        }
+
+
+        RegistrationImpl service = new RegistrationImpl();
+
+
+        boolean isOk = service.perform(this.repository, new String[]{login, userName, email, password1});
+        if (isOk) {
+
             System.out.println("Registration is successful.");
 
         } else {
             System.out.println("Registration failed.");
-
         }
     }
 
@@ -67,8 +94,9 @@ public class UserController {
 
 //вопросы поьзователю про логин , пассворд
 
-        Service service = new AuthorizationImpl();
-        boolean result = service.perform(repository, new String[]{login, "", "", password});
+        AuthorizationImpl service = new AuthorizationImpl();
+
+        boolean result = service.perform(this.repository, new String[]{login, "", "", password});
         if (result) {
             System.out.println("Login is successful.");
             loginAttempts = 0;
@@ -79,9 +107,20 @@ public class UserController {
     }
 
 
-    private void resetPassword() {
-
+    public void resetPassword() {
+        ResetPasswordImpl r = new ResetPasswordImpl();
+        r.askUser();
+        r.perform(repository);
 
     }
 
+
+
+    public void exit() {
+        ExitImpl e = new ExitImpl();
+        e.askUser();
+        e.perform(repository);
+    }
+
 }
+

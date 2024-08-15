@@ -4,7 +4,9 @@ import Entity.User;
 import Exceptions.UserNotFoundException;
 
 public interface UserRepository {
-    public void addToRepository( User user);
-    public User getUser(String login);
-    public User getUser(String login, String email)throws UserNotFoundException;
+     void addToRepository( User user);
+     User getUser(String login);
+     User getUser(String login, String email)throws UserNotFoundException;
+    boolean saveUser(User user);
+
 }
