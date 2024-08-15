@@ -1,29 +1,60 @@
 package Service;
 
-import Repository.PasswordRepository;
+import Entity.Password;
+import Entity.User;
+import Exceptions.PasswordComplexityException;
+import Repository.UserRepository;
 
-public class RegistrationImpl implements Registration{
-    private final PasswordRepository repository;
+import java.util.Scanner;
 
-    public RegistrationImpl(PasswordRepository repository) {
-        this.repository = repository;
+public class RegistrationImpl  implements Registration{
+
+    Scanner scanner = new Scanner(System.in);
+
+    String login = "";
+    String userName = "";
+    String email = "";
+    String password = "";
+
+
+    @Override
+    public boolean perform(UserRepository repository, String ...parameters) {
+        try{
+            Password password = new Password();
+            password.setPassword(this.password);
+            User user = new User(login, userName, email, password);
+            repository.addToRepository(user);
+        }
+        catch (PasswordComplexityException e){
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
     @Override
-    public boolean register(String userName, String login, String password) {
-        if(repository.findByLogin(login) !=null){
-            System.out.println("Такой логин уже существует");
-            return false;
+    public void askUser() {
+        String password1 = "";
+        String password2 = "+";
+
+        System.out.println("Enter your login: ");
+        login = scanner.nextLine();
+        System.out.println("Enter  your name:");
+        userName = scanner.nextLine();
+        System.out.println("Enter your email: ");
+        email = scanner.nextLine();
+
+        while(!password1.equals(password2)){
+            System.out.println("Enter your password: ");
+            password1 = scanner.nextLine();
+
+            System.out.println("Repeat your password: ");
+            password2 = scanner.nextLine();
+            if(!password1.equals(password2)){
+                System.out.println("Your passwords don't match.");
+            }
+            password = password1;
         }
-        if (password.length() < 8 || !password.matches(".*\\d.*") || !password.matches(".*[!@#$%^&*].*")) {
-            System.out.println("Некорректный пароль");
-
-        }
-
-        return false;
-
-
-
-
     }
 }

@@ -1,5 +1,9 @@
 package Service;
 
-public interface Registration {
-    boolean register(String userName,String login,String password);
+import Repository.UserRepository;
+
+public interface Registration extends Service {
+
+  boolean perform(UserRepository repository, String ...parameters);
+
 }
