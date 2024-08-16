@@ -4,13 +4,15 @@ import Repository.UserRepository;
 
 public class ResetPasswordImpl implements ResetPassword{
 
+    private UserRepository repository;
+
+    public ResetPasswordImpl(UserRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
-    public boolean perform(UserRepository repository, String... parameters) {
+    public boolean perform( String... parameters) {
         return false;
     }
 
-    @Override
-    public void askUser() {
-
-    }
 }

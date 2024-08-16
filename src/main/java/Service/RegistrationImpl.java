@@ -3,6 +3,7 @@ package Service;
 import Entity.Password;
 import Entity.User;
 import Exceptions.PasswordComplexityException;
+import Exceptions.UserAlreadyExistsException;
 import Repository.UserRepository;
 
 import java.util.Scanner;
@@ -10,20 +11,35 @@ import java.util.Scanner;
 public class RegistrationImpl  implements Registration{
 
     Scanner scanner = new Scanner(System.in);
+    private UserRepository repository;
+    private String login;
+    private String userName;
+    private String email;
+    private String password;
 
-    String login = "";
-    String userName = "";
-    String email = "";
-    String password = "";
-
+    public RegistrationImpl(UserRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
-    public boolean perform(UserRepository repository, String ...parameters) {
+    public boolean perform(String ...parameters) {
         try{
+            login = parameters[0];
+            userName = parameters[1];
+            email = parameters[2];
+
             Password password = new Password();
-            password.setPassword(this.password);
+            password.setPassword(parameters[3]);
             User user = new User(login, userName, email, password);
-            repository.addToRepository(user);
+
+            try {
+                repository.addToRepository(user, parameters[4]);
+            }
+           catch (UserAlreadyExistsException e){
+               System.out.println(e.getMessage());
+                return false;
+           }
+
         }
         catch (PasswordComplexityException e){
             e.printStackTrace();
@@ -33,8 +49,4 @@ public class RegistrationImpl  implements Registration{
     }
 
 
-    @Override
-    public void askUser() {
-
-    }
 }

@@ -1,12 +1,15 @@
 package Entity;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class User {
+
     private String userName;
     private String login;
     private Password password;
     private String email;
+
 
     public User(String login, String userName, String email, Password password) {
         this.userName = userName;
@@ -21,7 +24,7 @@ public class User {
                 "login='" + login + '\'' +
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
-                ", password=" + password +
+                ", password=" + password.getPasswordHash() +
                 '}';
     }
 
@@ -70,4 +73,29 @@ public class User {
     public int hashCode() {
         return Objects.hash(login, email);
     }
+
+
+    public  User (String s) {
+        s = s.substring(5, s.length() - 1);
+        String[] sl = s.split(",");
+
+        for (int i = 0; i < sl.length; i++) {
+            String[] pair = sl[i].split("=");
+            pair[0] = pair[0].trim();
+            pair[1] = pair[1].trim().replaceAll("^\'|\'$", "");
+
+            switch (pair[0]) {
+                case "login" -> login = pair[1];
+
+                case "userName" -> userName = pair[1];
+
+                case "email"-> email = pair[1];
+
+                case "password" -> password = new Password(pair[1]);
+
+            }
+        }
+    }
+
+
 }

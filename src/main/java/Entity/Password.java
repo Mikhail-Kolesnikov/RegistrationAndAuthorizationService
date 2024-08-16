@@ -7,13 +7,18 @@ public class Password {
     private String passwordHash;
     private Encryption encryption;
 
-    public Password(){};
+    public Password(){
+        this.encryption = Encryption.SHA1;
+    };
 
     public Password(String passwordHash) {
         this.passwordHash = passwordHash;
         this.encryption = Encryption.SHA1;
     }
 
+    public String getPasswordHash() {
+        return passwordHash;
+    }
 
     public Password(String passwordHash, Encryption encryption) {
         this.passwordHash = passwordHash;
@@ -37,7 +42,7 @@ public class Password {
     public void setPassword(String password) throws PasswordComplexityException {
 //проверки на соответствие пороля( не менее 6 символов и минимумм одна цифра)
 
-        if (password.length() > 6) {
+        if (password.length() < 6) {
             throw new PasswordComplexityException("The password length is less than 6 symbols.");
         }
         if (!this.hasDigit(password)) {
