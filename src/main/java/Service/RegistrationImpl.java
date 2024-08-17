@@ -15,7 +15,6 @@ public class RegistrationImpl  implements Registration{
     private String login;
     private String userName;
     private String email;
-    private String password;
 
     public RegistrationImpl(UserRepository repository) {
         this.repository = repository;
@@ -39,7 +38,6 @@ public class RegistrationImpl  implements Registration{
                System.out.println(e.getMessage());
                 return false;
            }
-
         }
         catch (PasswordComplexityException e){
             e.printStackTrace();
@@ -47,6 +45,5 @@ public class RegistrationImpl  implements Registration{
         }
         return true;
     }
-
 
 }

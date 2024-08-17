@@ -5,7 +5,6 @@ import Exceptions.UserNotFoundException;
 import Exceptions.UserAlreadyExistsException;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,8 +28,12 @@ public class UserRepositoryImpl implements UserRepository {
        userRepository.put(user.getLogin(), user);
    }
 
+   public User getUser(String login) throws UserNotFoundException {
 
-   public User getUser(String login){
+       User user = userRepository.get(login);
+       if(user == null){
+           throw new UserNotFoundException("Invalid login or email.");
+       }
       return userRepository.get(login);
    }
 
@@ -61,7 +64,7 @@ public class UserRepositoryImpl implements UserRepository {
         return false;
     }
 
-    public boolean load (String fileName) {
+    public void load (String fileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 
             for (String line; (line = br.readLine()) != null; ) {
@@ -76,10 +79,5 @@ public class UserRepositoryImpl implements UserRepository {
             System.out.println("Duplicate user will be ignored.");
             e1.printStackTrace();
         }
-
-       return false;
     }
-
-
-
 }

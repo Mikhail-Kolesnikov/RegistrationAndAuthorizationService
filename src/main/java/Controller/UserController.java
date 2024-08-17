@@ -1,16 +1,13 @@
 package Controller;
 
-import Entity.Password;
 import Entity.User;
 import Exceptions.UserNotFoundException;
 import Repository.UserRepository;
 import Repository.UserRepositoryImpl;
 import Service.*;
 
-import java.util.HashMap;
 import java.util.Scanner;
 
-import static Service.Service.*;
 
 public class UserController {
 
@@ -18,8 +15,7 @@ public class UserController {
     private UserRepositoryImpl repository;
     private RegistrationImpl service1;
     private AuthorizationImpl service2;
-    private ResetPasswordImpl service3;
-    private ExitImpl service4;
+    private ExitImpl service3;
 
     private int loginAttempts;
 
@@ -27,10 +23,8 @@ public class UserController {
         this.repository = (UserRepositoryImpl) repository;
         this.service1 = new RegistrationImpl(this.repository);
         this.service2 = new AuthorizationImpl(this.repository);
-        this.service3 = new ResetPasswordImpl(this.repository);
-        this.service4 = new ExitImpl(this.repository);
+        this.service3 = new ExitImpl(this.repository);
     }
-
 
 
     public void startProgram() {
@@ -58,9 +52,9 @@ public class UserController {
     private void registerUser() {
         String password1 = "";
         String password2 = "+";
-        String login = "";
-        String userName = "";
-        String email = "";
+        String login;
+        String userName;
+        String email;
 
         scanner = new Scanner(System.in);
         System.out.print("Enter your login: ");
@@ -88,13 +82,12 @@ public class UserController {
         }
     }
 
-
     private void authorizeUser() {
         while (loginAttempts < 6) {
+            String password;
+            String login;
 
-            String password = "";
-            String login = "";
-
+            scanner = new Scanner(System.in);
             System.out.print("Enter your login: ");
             login = scanner.nextLine();
             System.out.print("Enter  your password: ");
@@ -115,17 +108,18 @@ public class UserController {
     public void resetPassword() {
         String password1 = "";
         String password2 = "+";
-        String login = "";
-        String userName = "";
-        String email = "";
+        String login;
+        String userName;
+        String email;
 
+        scanner = new Scanner(System.in);
         System.out.print("Enter your login: ");
         login = scanner.nextLine();
         System.out.print("Enter your email: ");
         email = scanner.nextLine();
 
         try {
-            User user =  repository.getUser(login, email);
+            User user = repository.getUser(login, email);
             userName = user.getUserName();
 
             while (!password1.equals(password2)) {
@@ -138,27 +132,23 @@ public class UserController {
                     System.out.println("Your passwords don't match.");
                 }
             }
-        }
+            boolean isOk = service1.perform(new String[]{login, userName, email, password1, "x"});
 
-       catch ( UserNotFoundException e){
-           System.out.println(e.getMessage());
-       }
+            if (isOk) {
+                System.out.println("Password is reset successfully.");
+            } else {
+                System.out.println("Password reset failed.");
+            }
 
-        boolean isOk = service1.perform(new String[]{login,userName, email, password1, "x"});
-        if (isOk) {
-            System.out.println("Password is reset successfully.");
-        } else {
+        } catch (UserNotFoundException e) {
+            System.out.println(e.getMessage());
             System.out.println("Password reset failed.");
         }
-
-
     }
 
 
-
     public void exit() {
-        ExitImpl e = new ExitImpl(repository);
-        e.perform();
+        service3.perform();
     }
 
 }

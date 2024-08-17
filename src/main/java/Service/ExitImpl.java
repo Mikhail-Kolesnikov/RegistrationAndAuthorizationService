@@ -12,7 +12,10 @@ private UserRepository repository;
 
     @Override
     public boolean perform(String... parameters) {
-        repository.save();
+        boolean b =  repository.save();
+        if(!b){
+            System.out.println("Failed to save the repository.");
+        }
         System.exit(0);
         return false;
     }

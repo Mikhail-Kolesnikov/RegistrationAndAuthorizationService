@@ -1,6 +1,5 @@
 package Entity;
 
-
 import Exceptions.PasswordComplexityException;
 
 public class Password {
@@ -9,7 +8,7 @@ public class Password {
 
     public Password(){
         this.encryption = Encryption.SHA1;
-    };
+    }
 
     public Password(String passwordHash) {
         this.passwordHash = passwordHash;
@@ -20,15 +19,6 @@ public class Password {
         return passwordHash;
     }
 
-    public Password(String passwordHash, Encryption encryption) {
-        this.passwordHash = passwordHash;
-        this.encryption = encryption;
-    }
-
-    public Encryption getEncryption() {
-        return encryption;
-    }
-
     public boolean hasDigit(String string) {
         for (char c : string.toCharArray()) {
             if (Character.isDigit(c)) {
@@ -37,7 +27,6 @@ public class Password {
         }
         return false;
     }
-
 
     public void setPassword(String password) throws PasswordComplexityException {
 //проверки на соответствие пороля( не менее 6 символов и минимумм одна цифра)
@@ -51,7 +40,6 @@ public class Password {
 
         this.passwordHash = encryption.encrypt(password);
     }
-
 
     public boolean verify(String password) {
         String tempHash = encryption.encrypt(password);

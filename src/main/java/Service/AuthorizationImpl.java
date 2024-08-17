@@ -1,5 +1,7 @@
 package Service;
 
+import Entity.User;
+import Exceptions.UserNotFoundException;
 import Repository.UserRepository;
 
 public class AuthorizationImpl implements Authorization {
@@ -14,9 +16,14 @@ public class AuthorizationImpl implements Authorization {
 
     @Override
     public boolean perform(String... parameters) {
-
-        return repository.getUser(login).getPassword().verify(password);
-
+        try {
+            User user = repository.getUser(parameters[0]);
+          return user.getPassword().verify(parameters[3]);
+        }
+   catch (UserNotFoundException e){
+       System.out.println(e.getMessage());
+       return false;
+   }
     }
 }
 
