@@ -17,4 +17,9 @@ public class AuthorizationImpl implements Authorization {
 
     }
 
+    @Override
+    public void askUser() {
+
+    }
+
 }
