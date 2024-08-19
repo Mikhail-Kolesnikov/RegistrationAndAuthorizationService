@@ -12,6 +12,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     private File file;
 
+     public UserRepositoryImpl(){};
+
     public UserRepositoryImpl(File file) {
         this.file = file;
         load(file.getName());
