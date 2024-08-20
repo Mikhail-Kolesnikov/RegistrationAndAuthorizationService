@@ -21,6 +21,7 @@ class AuthorizationImplTest {
         if (file.exists()) {
             file.delete();
         }
+        System.out.println();
         userRepository = new UserRepositoryImpl(file);
         authorization = new AuthorizationImpl();
 
