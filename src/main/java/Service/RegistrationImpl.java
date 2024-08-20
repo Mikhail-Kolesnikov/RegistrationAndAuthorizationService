@@ -10,11 +10,12 @@ import java.util.Scanner;
 
 public class RegistrationImpl  implements Registration{
 
+    public String password;
     Scanner scanner = new Scanner(System.in);
     private UserRepository repository;
-    private String login;
-    private String userName;
-    private String email;
+    public String login;
+    public String userName;
+    public String email;
 
     public RegistrationImpl(UserRepository repository) {
         this.repository = repository;
