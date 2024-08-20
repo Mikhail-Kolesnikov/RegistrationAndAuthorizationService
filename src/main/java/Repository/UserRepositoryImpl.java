@@ -75,7 +75,7 @@ public class UserRepositoryImpl implements UserRepository {
             }
 
         } catch (IOException e) {
-            System.out.println("Cannot load the history.");
+            System.out.println("Cannot load the file.");
             e.printStackTrace();
         } catch ( UserAlreadyExistsException e1){
             System.out.println("Duplicate user will be ignored.");

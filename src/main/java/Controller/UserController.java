@@ -13,17 +13,18 @@ public class UserController {
 
     public Scanner scanner = new Scanner(System.in);
     private UserRepositoryImpl repository;
-    private RegistrationImpl service1;
-    private AuthorizationImpl service2;
-    private ExitImpl service3;
+    private RegistrationImpl registration;
+    private AuthorizationImpl authorization;
+    private ExitImpl exit;
 
     private int loginAttempts;
 
     public UserController(UserRepository repository) {
+        this.scanner = new Scanner(System.in);
         this.repository = (UserRepositoryImpl) repository;
-        this.service1 = new RegistrationImpl(this.repository);
-        this.service2 = new AuthorizationImpl(this.repository);
-        this.service3 = new ExitImpl(this.repository);
+        this.registration = new RegistrationImpl(this.repository);
+        this.authorization = new AuthorizationImpl(this.repository);
+        this.exit = new ExitImpl(this.repository);
     }
 
 
@@ -56,7 +57,6 @@ public class UserController {
         String userName;
         String email;
 
-        scanner = new Scanner(System.in);
         System.out.print("Enter your login: ");
         login = scanner.nextLine();
         System.out.print("Enter  your name:");
@@ -74,7 +74,7 @@ public class UserController {
             }
         }
 
-        boolean isOk = service1.perform(new String[]{login, userName, email, password1, ""});
+        boolean isOk = registration.perform(new String[]{login, userName, email, password1, ""});
         if (isOk) {
             System.out.println("Registration is successful.");
         } else {
@@ -93,7 +93,7 @@ public class UserController {
             System.out.print("Enter  your password: ");
             password = scanner.nextLine();
 
-            boolean result = service2.perform(new String[]{login, "", "", password});
+            boolean result = authorization.perform(new String[]{login, "", "", password});
             if (result) {
                 System.out.println("Login is successful.");
                 loginAttempts = 0;
@@ -132,7 +132,7 @@ public class UserController {
                     System.out.println("Your passwords don't match.");
                 }
             }
-            boolean isOk = service1.perform(new String[]{login, userName, email, password1, "x"});
+            boolean isOk = registration.perform(new String[]{login, userName, email, password1, "x"});
 
             if (isOk) {
                 System.out.println("Password is reset successfully.");
@@ -148,7 +148,7 @@ public class UserController {
 
 
     public void exit() {
-        service3.perform();
+        exit.perform();
     }
 
 }

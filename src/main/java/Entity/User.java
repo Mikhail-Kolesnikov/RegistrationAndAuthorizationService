@@ -18,27 +18,28 @@ public class User {
     }
 
     public  User (String s) {
-        s = s.substring(5, s.length() - 1);
-        String[] sl = s.split(",");
+        if (s.length() != 0) {
+            s = s.substring(5, s.length() - 1);
+            String[] sl = s.split(",");
 
-        for (int i = 0; i < sl.length; i++) {
-            String[] pair = sl[i].split("=");
-            pair[0] = pair[0].trim();
-            pair[1] = pair[1].trim().replaceAll("^\'|\'$", "");
+            for (int i = 0; i < sl.length; i++) {
+                String[] pair = sl[i].split("=");
+                pair[0] = pair[0].trim();
+                pair[1] = pair[1].trim().replaceAll("^\'|\'$", "");
 
-            switch (pair[0]) {
-                case "login" -> login = pair[1];
+                switch (pair[0]) {
+                    case "login" -> login = pair[1];
 
-                case "userName" -> userName = pair[1];
+                    case "userName" -> userName = pair[1];
 
-                case "email"-> email = pair[1];
+                    case "email" -> email = pair[1];
 
-                case "password" -> password = new Password(pair[1]);
+                    case "password" -> password = new Password(pair[1]);
 
+                }
             }
         }
     }
-
 
     @Override
     public String toString() {

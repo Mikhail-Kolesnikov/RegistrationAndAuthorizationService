@@ -2,6 +2,7 @@ package Repository;
 
 import Entity.Password;
 import Entity.User;
+import Exceptions.UserAlreadyExistsException;
 import Exceptions.UserNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,9 +25,9 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    void testAddAndRetrieveUser() {
+    void testAddAndRetrieveUser() throws UserAlreadyExistsException, UserNotFoundException {
         User user = new User("john_doe", "John Doe", "john@example.com", new Password("passwordHash"));
-        userRepository.addToRepository(user);
+        userRepository.addToRepository(user, "");
 
         User retrievedUser = userRepository.getUser("john_doe");
         Assertions.assertEquals(user, retrievedUser);
@@ -35,7 +36,7 @@ class UserRepositoryImplTest {
     @Test
     void testSaveUser() {
         User user = new User("john_doe", "John Doe", "john@example.com", new Password("passwordHash"));
-        boolean saved = userRepository.saveUser(user);
+        boolean saved = userRepository.save();
 
         Assertions.assertTrue(saved);
     }
@@ -43,7 +44,7 @@ class UserRepositoryImplTest {
     @Test
     void testGetUserByLoginAndEmail() throws UserNotFoundException {
         User user = new User("john_doe", "John Doe", "john@example.com", new Password("passwordHash"));
-        userRepository.addToRepository(user);
+        userRepository.addToRepository();
 
         User retrievedUser = userRepository.getUser("john_doe", "john@example.com");
         Assertions.assertEquals(user, retrievedUser);

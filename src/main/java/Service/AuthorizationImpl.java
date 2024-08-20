@@ -15,17 +15,14 @@ public class AuthorizationImpl implements Authorization {
     }
 
 
-   
     public boolean perform(String... parameters) {
         try {
             User user = repository.getUser(parameters[0]);
-          return user.getPassword().verify(parameters[3]);
+            return user.getPassword().verify(parameters[3]);
+        } catch (UserNotFoundException e) {
+            System.out.println(e.getMessage());
+            return false;
         }
-   catch (UserNotFoundException e){
-       System.out.println(e.getMessage());
-       return false;
-   }
     }
-
 }
 

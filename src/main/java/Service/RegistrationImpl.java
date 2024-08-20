@@ -31,19 +31,18 @@ public class RegistrationImpl  implements Registration{
             Password password = new Password();
             password.setPassword(parameters[3]);
             User user = new User(login, userName, email, password);
+            repository.addToRepository(user, parameters[4]);
 
-            try {
-                repository.addToRepository(user, parameters[4]);
-            }
-           catch (UserAlreadyExistsException e){
-               System.out.println(e.getMessage());
-                return false;
-           }
         }
         catch (PasswordComplexityException e){
             e.printStackTrace();
             return false;
         }
+           catch (UserAlreadyExistsException e){
+               System.out.println(e.getMessage());
+                return false;
+           }
+
         return true;
     }
 
