@@ -21,30 +21,30 @@ class AuthorizationImplTest {
         if (file.exists()) {
             file.delete();
         }
-        System.out.println();
+
         userRepository = new UserRepositoryImpl(file);
-        authorization = new AuthorizationImpl();
+        authorization = new AuthorizationImpl(userRepository);
 
         // Register a user for testing authorization
         User user = new User("john_doe", "John Doe", "john@example.com", new Password("Password123!"));
-        userRepository.addToRepository(user);
+        userRepository.addToRepository();
     }
 
     @Test
     void testSuccessfulLogin() {
-        boolean isLoggedIn = authorization.perform(userRepository, "john_doe", "", "", "Password123!");
+        boolean isLoggedIn = authorization.perform(String.valueOf(userRepository), "john_doe", "", "", "Password123!");
         Assertions.assertTrue(isLoggedIn);
     }
 
     @Test
     void testFailedLoginWithWrongPassword() {
-        boolean isLoggedIn = authorization.perform(userRepository, "john_doe", "", "", "WrongPassword");
+        boolean isLoggedIn = authorization.perform(String.valueOf(userRepository), "john_doe", "", "", "WrongPassword");
         Assertions.assertFalse(isLoggedIn);
     }
 
     @Test
     void testFailedLoginWithNonExistentUser() {
-        boolean isLoggedIn = authorization.perform(userRepository, "non_existent_user", "", "", "Password123!");
+        boolean isLoggedIn = authorization.perform(String.valueOf(userRepository), "non_existent_user", "", "", "Password123!");
         Assertions.assertFalse(isLoggedIn);
     }
 }

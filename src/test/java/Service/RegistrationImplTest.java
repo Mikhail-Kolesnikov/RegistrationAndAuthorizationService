@@ -1,6 +1,7 @@
 package Service;
 
 import Entity.User;
+import Exceptions.UserNotFoundException;
 import Repository.UserRepositoryImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,12 +22,12 @@ class RegistrationImplTest {
             file.delete();
         }
         userRepository = new UserRepositoryImpl(file);
-        registration = new RegistrationImpl();
+        registration = new RegistrationImpl(userRepository);
     }
 
     @Test
-    void testSuccessfulRegistration() {
-        boolean isRegistered = registration.perform(userRepository, "john_doe", "John Doe", "john@example.com", "Password123!");
+    void testSuccessfulRegistration() throws UserNotFoundException {
+        boolean isRegistered = registration.perform(String.valueOf(userRepository), "john_doe", "John Doe", "john@example.com", "Password123!");
         Assertions.assertTrue(isRegistered);
 
         User user = userRepository.getUser("john_doe");
@@ -36,7 +37,7 @@ class RegistrationImplTest {
 
     @Test
     void testRegistrationWithWeakPassword() {
-        boolean isRegistered = registration.perform(userRepository, "jane_doe", "Jane Doe", "jane@example.com", "weak");
+        boolean isRegistered = registration.perform(String.valueOf(userRepository), "jane_doe", "Jane Doe", "jane@example.com", "weak");
         Assertions.assertFalse(isRegistered);
     }
 }

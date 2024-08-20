@@ -82,4 +82,7 @@ public class UserRepositoryImpl implements UserRepository {
             e1.printStackTrace();
         }
     }
+
+    public void addToRepository() {
+    }
 }
