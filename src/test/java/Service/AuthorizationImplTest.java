@@ -2,6 +2,8 @@ package Service;
 
 import Entity.Password;
 import Entity.User;
+import Exceptions.PasswordComplexityException;
+import Exceptions.UserAlreadyExistsException;
 import Repository.UserRepositoryImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,29 +18,31 @@ class AuthorizationImplTest {
     private AuthorizationImpl authorization;
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp() throws  PasswordComplexityException, UserAlreadyExistsException {
         File file = new File("test_users.txt");
         if (file.exists()) {
             file.delete();
         }
 
-        userRepository = new UserRepositoryImpl(file);
+        userRepository = new UserRepositoryImpl();
         authorization = new AuthorizationImpl(userRepository);
 
         // Register a user for testing authorization
-        User user = new User("john_doe", "John Doe", "john@example.com", new Password("Password123!"));
-        userRepository.addToRepository();
+        Password password = new Password();
+        password.setPassword("Password123!");
+        User user = new User("john_doe", "John Doe", "john@example.com", password);
+        userRepository.addToRepository(user,"");
     }
 
     @Test
     void testSuccessfulLogin() {
-        boolean isLoggedIn = authorization.perform(String.valueOf(userRepository), "john_doe", "", "", "Password123!");
+        boolean isLoggedIn = authorization.perform( "john_doe", "", "", "Password123!");
         Assertions.assertTrue(isLoggedIn);
     }
 
     @Test
     void testFailedLoginWithWrongPassword() {
-        boolean isLoggedIn = authorization.perform(String.valueOf(userRepository), "john_doe", "", "", "WrongPassword");
+        boolean isLoggedIn = authorization.perform( "john_doe", "", "", "WrongPassword");
         Assertions.assertFalse(isLoggedIn);
     }
 

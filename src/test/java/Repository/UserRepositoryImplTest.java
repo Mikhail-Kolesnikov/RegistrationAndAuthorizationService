@@ -21,7 +21,8 @@ class UserRepositoryImplTest {
         if (file.exists()) {
             file.delete();
         }
-        userRepository = new UserRepositoryImpl(file);
+
+        userRepository = new UserRepositoryImpl();
     }
 
     @Test
@@ -35,6 +36,8 @@ class UserRepositoryImplTest {
 
     @Test
     void testSaveUser() {
+        File file = new File("test_users.txt");
+        userRepository = new UserRepositoryImpl(file);
         User user = new User("john_doe", "John Doe", "john@example.com", new Password("passwordHash"));
         boolean saved = userRepository.save();
 
@@ -42,9 +45,9 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    void testGetUserByLoginAndEmail() throws UserNotFoundException {
+    void testGetUserByLoginAndEmail() throws UserNotFoundException, UserAlreadyExistsException{
         User user = new User("john_doe", "John Doe", "john@example.com", new Password("passwordHash"));
-        userRepository.addToRepository();
+        userRepository.addToRepository(user,"");
 
         User retrievedUser = userRepository.getUser("john_doe", "john@example.com");
         Assertions.assertEquals(user, retrievedUser);
