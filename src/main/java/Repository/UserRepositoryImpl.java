@@ -21,7 +21,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     HashMap < String, User > userRepository  = new HashMap<>();
 
-   public void addToRepository (User user, String overwrite) throws UserAlreadyExistsException {
+   public void addToRepository(User user, String overwrite) throws UserAlreadyExistsException {
      if( userRepository.get(user.getLogin()) != null){
        if(overwrite.isEmpty()){
         throw new UserAlreadyExistsException("This User is already registered.");

@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class UserController {
 
-    public Scanner scanner = new Scanner(System.in);
+    public Scanner scanner;
     private UserRepositoryImpl repository;
     private RegistrationImpl registration;
     private AuthorizationImpl authorization;
@@ -38,6 +38,7 @@ public class UserController {
             }
 
             int commandLine = scanner.nextInt();
+            scanner.nextLine();
             Command c = Command.values()[commandLine - 1];
             switch (c) {
                 case REGISTER_USER -> registerUser();
@@ -57,6 +58,7 @@ public class UserController {
         String userName;
         String email;
 
+        //scanner = new Scanner(System.in);
         System.out.print("Enter your login: ");
         login = scanner.nextLine();
         System.out.print("Enter  your name:");
@@ -112,7 +114,7 @@ public class UserController {
         String userName;
         String email;
 
-        scanner = new Scanner(System.in);
+        //scanner = new Scanner(System.in);
         System.out.print("Enter your login: ");
         login = scanner.nextLine();
         System.out.print("Enter your email: ");
